@@ -1,0 +1,107 @@
+.staff-page-wrapper {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Staff Registration Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin:0 auto;
+  margin-bottom: 30px;
+}
+
+form input,
+form select,
+form button {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Grid layout for staff cards */
+.staff-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Auto-fill with minimum width of 280px per card */
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Style for each staff card */
+.staff-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.staff-card h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.staff-card p {
+  margin: 5px 0;
+}
+
+.staff-card button {
+  background-color: #4caf50; /* Green color for edit button */
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.staff-card button:hover {
+  background-color: #388e3c;
+}
+
+/* Delete button style */
+.delete-btn {
+  background-color: #f44336; /* Red color for delete button */
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Responsive design: smaller screens */
+@media (max-width: 768px) {
+  .staff-cards {
+    grid-template-columns: 1fr 1fr; /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .staff-cards {
+    grid-template-columns: 1fr; /* 1 column on small screens */
+  }
+
+  form {
+    max-width: 100%; /* Make the form full width on smaller screens */
+  }
+}

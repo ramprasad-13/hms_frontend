@@ -1,0 +1,40 @@
+/* Scoped styles for the ReceptionistDashboard component */
+.receptionist-dashboard-wrapper {
+  padding: 20px;
+}
+
+.patients {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.patient-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+}
+
+.patient-card h4 {
+  margin-bottom: 10px;
+}
+
+.patient-card p {
+  margin: 5px 0;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

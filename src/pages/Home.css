@@ -1,0 +1,146 @@
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+.home-page {
+  padding: 20px;
+}
+
+.main-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.main-header h1 {
+  font-size: 2.5em;
+  color: #2c3e50;
+}
+
+.main-header p {
+  font-size: 1.2em;
+  color: #7f8c8d;
+}
+
+/* Doctor Image Section */
+.doctor-image {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.doctor-photo {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+/* Main Purpose Section */
+.purpose {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.purpose h2 {
+  font-size: 2em;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.purpose-cards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 1.5em;
+  color: #2980b9;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 1em;
+  color: #7f8c8d;
+}
+
+/* Footer Section */
+.footer {
+  text-align: center;
+  font-size: 1em;
+  margin-top: 50px;
+  color: #7f8c8d;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .main-header h1 {
+    font-size: 2em;
+  }
+
+  .main-header p {
+    font-size: 1em;
+  }
+
+  .doctor-photo {
+    max-width: 90%;
+  }
+
+  .purpose h2 {
+    font-size: 1.8em;
+  }
+
+  .purpose-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-header h1 {
+    font-size: 1.5em;
+  }
+
+  .main-header p {
+    font-size: 0.9em;
+  }
+
+  .doctor-photo {
+    max-width: 100%;
+  }
+
+  .purpose h2 {
+    font-size: 1.5em;
+  }
+
+  .purpose-cards {
+    padding: 0 10px;
+  }
+
+  .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .footer {
+    font-size: 0.9em;
+  }
+}

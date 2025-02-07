@@ -1,0 +1,26 @@
+/* Scoped styles for the PharmacistDashboard component */
+.pharmacist-dashboard-wrapper {
+  padding: 20px;
+}
+
+.patients-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.patient-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.patient-card h3 {
+  margin-bottom: 10px;
+}
+
+.patient-card p {
+  margin: 5px 0;
+}

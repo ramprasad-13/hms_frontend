@@ -1,0 +1,28 @@
+/* Targeting the doctor-dashboard-container specifically */
+.doctor-dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  background-color: #f4f4f4;
+}
+
+/* Button styles within doctor-dashboard-container */
+.doctor-dashboard-container .action-btn {
+  max-width: 150px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.doctor-dashboard-container .action-btn:hover {
+  background-color: #0056b3;
+}
