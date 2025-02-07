@@ -114,7 +114,7 @@ const StaffPage = () => {
         >
           <option value="">Select Role</option>
           <option value="receptionist">Receptionist</option>
-          <option value="pharmacist">Pharmacist</option>
+          <option value="pharamacist">Pharmacist</option>
         </select>
         <input
           type="tel"
