@@ -1,11 +1,20 @@
 import axios from 'axios';
 
-const baseURL = 'https://hms-backend-nu.vercel.app/api';
+const baseURL = 'http://localhost:3000/api';
 
 // Patient-related API calls
-export const getPatients = async (token) => {
+export const getPatients = async (token, filters = {}) => {
   try {
-    const response = await axios.get(`${baseURL}/patient`, {
+    // Construct query string based on filters
+    const { name, phoneNumber, startDate, endDate } = filters;
+    const queryParams = new URLSearchParams();
+
+    if (name) queryParams.append('name', name);
+    if (phoneNumber) queryParams.append('phoneNumber', phoneNumber);
+    if (startDate) queryParams.append('startDate', startDate);
+    if (endDate) queryParams.append('endDate', endDate);
+
+    const response = await axios.get(`${baseURL}/patient?${queryParams.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -16,6 +25,7 @@ export const getPatients = async (token) => {
     throw new Error('Error fetching patients');
   }
 };
+
 
 export const addPatient = async (token, newPatient) => {
   try {
