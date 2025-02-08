@@ -90,6 +90,7 @@ form button:hover {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 0 auto;
 }
 
 .patient-card h3 {
