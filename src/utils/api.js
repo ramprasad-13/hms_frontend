@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3000/api';
+const baseURL = 'https://hms-backend-nu.vercel.app/api';
 
 // Patient-related API calls
 export const getPatients = async (token, filters = {}) => {
