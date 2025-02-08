@@ -10,6 +10,40 @@ h2 {
   margin-bottom: 20px;
 }
 
+/* Filter Section */
+.patient-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.patient-filters input,
+.patient-filters select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  flex: 1 1 200px; /* Allow inputs to grow and shrink with a minimum width of 200px */
+  min-width: 150px;
+}
+
+.patient-filters button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  flex-basis: 150px;
+}
+
+.patient-filters button:hover {
+  background-color: #0056b3;
+}
+
 /* Patient Registration Form */
 form {
   display: flex;
@@ -95,6 +129,25 @@ form button:hover {
   .patients-cards {
     grid-template-columns: 1fr 1fr; /* 2 columns on medium screens */
   }
+
+  /* Stack filters vertically on smaller screens */
+  .patient-filters {
+    flex-direction: column;
+    gap: 10px; /* Reduce gap between filters */
+    align-items: stretch;
+  }
+
+  /* Adjust filter input and button to take full width on smaller screens */
+  .patient-filters input,
+  .patient-filters select,
+  .patient-filters button {
+    flex: 1 1 100%; /* Make each filter take full width */
+    min-width: 100%; /* Ensure no minimum width */
+  }
+
+  .patient-filters button {
+    flex-basis: auto; /* Allow the button to stretch */
+  }
 }
 
 @media (max-width: 480px) {
@@ -104,5 +157,12 @@ form button:hover {
 
   form {
     max-width: 100%; /* Make the form full width on smaller screens */
+  }
+
+  /* Filter inputs and button full width on very small screens */
+  .patient-filters input,
+  .patient-filters select,
+  .patient-filters button {
+    min-width: 100%; /* Ensure full width */
   }
 }
