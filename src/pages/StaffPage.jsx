@@ -1,4 +1,3 @@
-// StaffPage.jsx
 import { useEffect, useState } from 'react';
 import { getStaff, registerStaff, updateStaff, deleteStaff } from '../utils/api'; // Import the functions from api.js
 import './StaffPage.css';
@@ -6,58 +5,46 @@ import './StaffPage.css';
 const StaffPage = () => {
   const [staff, setStaff] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editMode, setEditMode] = useState(null); // Track which staff member is being edited
   const [newStaff, setNewStaff] = useState({ fullName: '', email: '', role: '', phoneNumber: '', password: '' });
-  const [editedPassword, setEditedPassword] = useState(''); // To track the password input separately
+  const [editMode, setEditMode] = useState(null); // Track which staff member is being edited
+  const [editedPassword, setEditedPassword] = useState(''); // For tracking password input separately
 
   // Fetch staff data
-  useEffect(() => {
+  const fetchStaff = async () => {
     const token = localStorage.getItem('token');
     if (token) {
-      const fetchStaff = async () => {
-        try {
-          const staffData = await getStaff(token); // Use the function from api.js
-          setStaff(staffData);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching staff:', error);
-          setLoading(false);
-        }
-      };
-      fetchStaff();
+      setLoading(true); // Show loading spinner while fetching
+      try {
+        const staffData = await getStaff(token); // Use the function from api.js
+        setStaff(staffData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching staff:', error);
+        setLoading(false);
+      }
     }
+  };
+
+  useEffect(() => {
+    fetchStaff(); // Fetch staff on initial load
   }, []);
 
-  // Delete a staff member
-  const handleDeleteStaff = async (id) => {
-    const token = localStorage.getItem('token');
-    try {
-      await deleteStaff(token, id); // Use the function from api.js
-      setStaff(staff.filter(s => s._id !== id));
-    } catch (error) {
-      console.error('Error deleting staff', error);
-    }
-  };
-
-  // Handle form changes for new staff registration or editing
-  const handleChange = (e) => {
-    setNewStaff({ ...newStaff, [e.target.name]: e.target.value });
-  };
-
-  // Handle staff registration
+  // Handle adding staff
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const registeredStaff = await registerStaff(token, newStaff); // Use the function from api.js
-      setStaff([...staff, registeredStaff]);
+      await registerStaff(token, newStaff); // Use the function from api.js
+      // Refetch staff data after registering new staff
+      fetchStaff();
+      // Reset form after registration
       setNewStaff({ fullName: '', email: '', role: '', phoneNumber: '', password: '' });
     } catch (error) {
       console.error('Error registering staff:', error);
     }
   };
 
-  // Handle updating staff details
+  // Handle editing staff details
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
@@ -68,8 +55,9 @@ const StaffPage = () => {
     }
 
     try {
-      const updated = await updateStaff(token, editMode, updatedStaff); // Use the function from api.js
-      setStaff(staff.map((s) => (s._id === editMode ? { ...s, ...updated } : s)));
+      await updateStaff(token, editMode, updatedStaff); // Use the function from api.js
+      // Refetch staff data after update
+      fetchStaff();
       setEditMode(null);
       setEditedPassword('');
       setNewStaff({ fullName: '', email: '', role: '', phoneNumber: '', password: '' }); // Clear form after update
@@ -78,16 +66,38 @@ const StaffPage = () => {
     }
   };
 
-  // Handle editing staff details
+  // Handle form changes
+  const handleChange = (e) => {
+    setNewStaff({ ...newStaff, [e.target.name]: e.target.value });
+  };
+
+  // Handle deleting a staff member
+  const handleDeleteStaff = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      await deleteStaff(token, id); // Use the function from api.js
+      // Refetch staff data after delete
+      fetchStaff();
+    } catch (error) {
+      console.error('Error deleting staff', error);
+    }
+  };
+
+  // Handle editing a staff member
   const handleEditClick = (staffMember) => {
     setEditMode(staffMember._id);
-    setNewStaff({ fullName: staffMember.fullName, email: staffMember.email, role: staffMember.role, phoneNumber: staffMember.phoneNumber, password: '' });
+    setNewStaff({
+      fullName: staffMember.fullName,
+      email: staffMember.email,
+      role: staffMember.role,
+      phoneNumber: staffMember.phoneNumber,
+      password: ''
+    });
     setEditedPassword(''); // Reset the password input when editing
   };
 
   return (
     <div className="staff-page-wrapper">
-      {/* Staff Registration or Update Form */}
       <h2>{editMode ? 'Update Staff' : 'Register New Staff'}</h2>
       <form onSubmit={editMode ? handleUpdateSubmit : handleRegisterSubmit}>
         <input
@@ -106,12 +116,7 @@ const StaffPage = () => {
           placeholder="Email"
           required
         />
-        <select
-          name="role"
-          value={newStaff.role}
-          onChange={handleChange}
-          required
-        >
+        <select name="role" value={newStaff.role} onChange={handleChange} required>
           <option value="">Select Role</option>
           <option value="receptionist">Receptionist</option>
           <option value="pharamacist">Pharmacist</option>
@@ -134,11 +139,10 @@ const StaffPage = () => {
         <button type="submit">{editMode ? 'Update Staff' : 'Register'}</button>
       </form>
 
-      {/* Display Staff Members */}
       {loading ? <p>Loading...</p> : (
         <div className="staff-cards">
           {staff.map((staffMember) => (
-            <div className="staff-card" key={staffMember._id}>
+            <div className="staff-card" key={staffMember._id}> {/* Unique key */}
               <div>
                 <h3>{staffMember.fullName}</h3>
                 <p>Email: {staffMember.email}</p>
