@@ -1,4 +1,3 @@
-// ReceptionistDashboard.jsx
 import { useEffect, useState } from 'react';
 import { getPatients, addPatient, updatePatient, deletePatient } from '../utils/api'; // Import the functions from api.js
 import './ReceptionistDashboard.css';
@@ -15,10 +14,18 @@ const ReceptionistDashboard = () => {
   });
   const [editingPatient, setEditingPatient] = useState(null);
 
+  // Filter state
+  const [filters, setFilters] = useState({
+    name: '',
+    phoneNumber: '',
+    startDate: '',
+    endDate: ''
+  });
+
   // Helper function to get the token from localStorage
   const getAuthToken = () => localStorage.getItem('token');
 
-  // Fetch all patients on component mount
+  // Fetch all patients on component mount or when filters change
   useEffect(() => {
     const fetchPatients = async () => {
       try {
@@ -28,7 +35,7 @@ const ReceptionistDashboard = () => {
           return;
         }
 
-        const patientsData = await getPatients(token); // Use the function from api.js
+        const patientsData = await getPatients(token, filters); // Use filters in the API call
         setPatients(patientsData);
       } catch (error) {
         console.error('Error fetching patients:', error);
@@ -36,7 +43,7 @@ const ReceptionistDashboard = () => {
     };
 
     fetchPatients();
-  }, []);
+  }, [filters]);
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -120,6 +127,15 @@ const ReceptionistDashboard = () => {
     }
   };
 
+  // Handle filter input changes
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
+
   return (
     <div className="receptionist-dashboard-wrapper">
       <h2>Receptionist Dashboard</h2>
@@ -178,6 +194,39 @@ const ReceptionistDashboard = () => {
         />
         <button type="submit">{editingPatient ? 'Update Patient' : 'Add Patient'}</button>
       </form>
+
+      {/* Query Filters Section */}
+      <h4>Filter Patient</h4>
+      <div className="patient-filters">
+        <input
+          type="text"
+          name="name"
+          value={filters.name}
+          onChange={handleFilterChange}
+          placeholder="Search by name"
+        />
+        <input
+          type="tel"
+          name="phoneNumber"
+          value={filters.phoneNumber}
+          onChange={handleFilterChange}
+          placeholder="Search by phone number"
+        />
+        <input
+          type="date"
+          name="startDate"
+          value={filters.startDate}
+          onChange={handleFilterChange}
+          placeholder="Start date"
+        />
+        <input
+          type="date"
+          name="endDate"
+          value={filters.endDate}
+          onChange={handleFilterChange}
+          placeholder="End date"
+        />
+      </div>
 
       {/* Patient Cards */}
       <div className="patients">
