@@ -1,4 +1,3 @@
-// PatientsPage.jsx
 import { useEffect, useState } from 'react';
 import { getPatients, addPatient, updatePatient, deletePatient } from '../utils/api'; // Import API functions
 import './PatientsPage.css';
@@ -21,25 +20,45 @@ const PatientsPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editPatientId, setEditPatientId] = useState(null);
 
-  // Fetch patients
+  // Filter state for search and appointment date range
+  const [filters, setFilters] = useState({
+    name: '',
+    phoneNumber: '',
+    startDate: '',
+    endDate: ''
+  });
+
+  // Fetch patients with filters
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      getPatients(token)
-        .then((patients) => {
+    const fetchPatients = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const { name, phoneNumber, startDate, endDate } = filters;
+          const patients = await getPatients(token, { name, phoneNumber, startDate, endDate });
           const patientsWithFormattedDate = patients.map(patient => ({
             ...patient,
             appointmentDate: new Date(patient.appointmentDate).toISOString().split('T')[0] // Format to yyyy-MM-dd
           }));
           setPatients(patientsWithFormattedDate);
-          setLoading(false);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error('Error fetching patients:', error);
+        } finally {
           setLoading(false);
-        });
-    }
-  }, []);
+        }
+      }
+    };
+    fetchPatients();
+  }, [filters]); // Run whenever filters change
+
+  // Handle filter change
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
 
   // Handle form change
   const handleChange = (e) => {
@@ -129,6 +148,7 @@ const PatientsPage = () => {
   return (
     <div className="patients-page-wrapper">
       <h2>{isEditing ? 'Edit Patient' : 'Add New Patient'}</h2>
+
       <form onSubmit={handleSubmit} className="patient-form">
         <input
           type="text"
@@ -197,6 +217,39 @@ const PatientsPage = () => {
         />
         <button type="submit">{isEditing ? 'Update Patient' : 'Add Patient'}</button>
       </form>
+
+            {/* Filter Section */}
+        <h4>Filter Patient</h4>
+        <div className="patient-filters">
+        <input
+          type="text"
+          name="name"
+          value={filters.name}
+          onChange={handleFilterChange}
+          placeholder="Search by name"
+        />
+        <input
+          type="tel"
+          name="phoneNumber"
+          value={filters.phoneNumber}
+          onChange={handleFilterChange}
+          placeholder="Search by phone number"
+        />
+        <input
+          type="date"
+          name="startDate"
+          value={filters.startDate}
+          onChange={handleFilterChange}
+          placeholder="Start date"
+        />
+        <input
+          type="date"
+          name="endDate"
+          value={filters.endDate}
+          onChange={handleFilterChange}
+          placeholder="End date"
+        />
+      </div>
 
       {loading ? <p>Loading...</p> : (
         <div className="patients-cards">
